@@ -1,6 +1,10 @@
 import cv2
 import numpy as np
+import argparse
 
+ap = argparse.ArgumentParser()
+ap.add_argument("-i", "--image", required=True, help="path to input dataset of images")
+args = vars(ap.parse_args())
 
 ###################################
 widthImg = 540
@@ -62,7 +66,7 @@ def getWarp(img, biggest):
     imgOutput = cv2.warpPerspective(img, matrix, (widthImg, heightImg))
 
     imgCropped = imgOutput[20 : imgOutput.shape[0] - 20, 20 : imgOutput.shape[1] - 20]
-    imgCropped = cv2.resize(imgCropped, (widthImg, heightImg))
+    # imgCropped = cv2.resize(imgCropped, (widthImg, heightImg))
 
     return imgCropped
 
@@ -115,26 +119,30 @@ def stackImages(scale, imgArray):
     return ver
 
 
-while True:
-    success, img = cap.read()
-    img = cv2.resize(img, (widthImg, heightImg))
-    imgContour = img.copy()
+# while True:
+# success, img = cap.read()
+print(args["image"])
+img = cv2.imread(args["image"])
+img = cv2.resize(img, (540, 720))
+imgContour = img.copy()
 
-    imgThres = preProcessing(img)
-    biggest = getContours(imgThres)
-    if biggest.size != 0:
-        imgWarped = getWarp(img, biggest)
-        # imageArray = ([img,imgThres],
-        #           [imgContour,imgWarped])
-        imageArray = [imgContour, imgWarped]
-        cv2.imshow("ImageWarped", imgWarped)
-    else:
-        # imageArray = ([img, imgThres],
-        #               [img, img])
-        imageArray = [imgContour, img]
+imgThres = preProcessing(img)
+biggest = getContours(imgThres)
+if biggest.size != 0:
+    imgWarped = getWarp(img, biggest)
 
-    stackedImages = stackImages(0.6, imageArray)
-    cv2.imshow("WorkFlow", stackedImages)
+    # imageArray = ([img,imgThres],
+    #           [imgContour,imgWarped])
+    imageArray = [img, imgContour, imgWarped]
+    cv2.imshow("ImageWarped", imgWarped)
+else:
+    # imageArray = ([img, imgThres],
+    #               [img, img])
+    imageArray = [imgContour, img]
+cv2.imwrite(args["image"] + "warped.png", imgWarped)
+stackedImages = stackImages(1, imageArray)
+cv2.imshow("WorkFlow", stackedImages)
 
-    if cv2.waitKey(1) & 0xFF == ord("q"):
-        break
+cv2.waitKey(0)
+# if cv2.waitKey(1) & 0xFF == ord("q"):
+#     break
