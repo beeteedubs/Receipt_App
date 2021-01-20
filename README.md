@@ -1,5 +1,4 @@
 # Receipt_App
 
-## How to run get scanned image 
-- python 
-- python real_proj_2.py -i data/costco_full2.png
+## How to run code
+- python scan.py --image sample_images/costco.png
