@@ -1,3 +1,18 @@
+<<<<<<< HEAD
+node_modules/**/*
+.expo/*
+npm-debug.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+
+# macOS
+.DS_Store
+=======
 # OSX
 #
 .DS_Store
@@ -57,3 +72,4 @@ buck-out/
 
 # CocoaPods
 /ios/Pods/
+>>>>>>> d430aeaa77e5ea66f2821f5ea48c62a804edb83d
