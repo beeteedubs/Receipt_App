@@ -1,0 +1,8 @@
+Start app
+- "expo start", creates browser tab Metro Bundler
+- open Android Virtual Device (AVD), press home button
+- click "Run on Android device/emulator" or click 'a' in terminal
+
+Debug on browser
+- dismiss error
+- shaking doesn't: adb shell input keyevent 82
